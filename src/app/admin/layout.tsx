@@ -15,7 +15,10 @@ export const dynamic = "force-dynamic";
 
 /** Links a person sees. Pages still check permissions themselves. */
 function navFor(role: StaffRole) {
-  return [{ label: "Dashboard", href: "/admin/" }, ...(can.manageStaff(role) ? [{ label: "Staff", href: "/admin/staff/" }] : [])];
+  return [
+    { label: "Dashboard", href: "/admin/" },
+    { label: "Applications", href: "/admin/applications/" },
+    ...(can.manageStaff(role) ? [{ label: "Staff", href: "/admin/staff/" }] : [])];
 }
 
 /** The admin's own simple layout: no public header, footer or sticky bar. */

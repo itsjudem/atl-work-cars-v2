@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { roleLabels } from "@/lib/admin/roles";
 import { requireStaff } from "@/lib/admin/session";
 import { createClient } from "@/lib/supabase/server";
@@ -8,6 +9,7 @@ export const metadata: Metadata = { title: { absolute: "Dashboard | ATL Work Car
 interface Tile {
   label: string;
   count: number | null;
+  href?: string;
 }
 
 /** Admin home: the counts that tell staff what needs doing. */
@@ -35,7 +37,7 @@ export default async function AdminHome() {
     {
       heading: "Needs attention",
       tiles: [
-        { label: "Applications not yet contacted", count: appsNew },
+        { label: "Applications not yet contacted", count: appsNew, href: "/admin/applications/?contacted=no" },
         { label: "Contacts not yet contacted", count: contactsNew },
         { label: "Hot leads not yet contacted", count: hotNew },
         { label: "Unrated contacts", count: unrated },
@@ -64,8 +66,14 @@ export default async function AdminHome() {
           </h2>
           <dl className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {g.tiles.map((t) => (
-              <div key={t.label} className="rounded-xl border border-line bg-surface p-4">
-                <dt className="text-sm text-ink-soft">{t.label}</dt>
+              <div key={t.label} className="relative rounded-xl border border-line bg-surface p-4 hover:border-brand">
+                <dt className="text-sm text-ink-soft">
+                  {t.href ? (
+                    <Link href={t.href} className="text-ink-soft no-underline after:absolute after:inset-0">{t.label}</Link>
+                  ) : (
+                    t.label
+                  )}
+                </dt>
                 <dd className="mt-1 font-heading text-4xl font-bold">{t.count ?? "—"}</dd>
               </div>
             ))}
