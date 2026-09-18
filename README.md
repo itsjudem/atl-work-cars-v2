@@ -81,6 +81,10 @@ Canonical URLs always point at `https://atlworkcars.com` (from `site.url`), even
 
 Do **not** use static export. The Cloudflare move happens at the end of Phase 2 via vinext or `@opennextjs/cloudflare`.
 
+## Database (Phase 2)
+
+The Supabase schema, setup steps and tests live in `supabase/` — see `supabase/README.md`.
+
 ## Project layout
 
 ```
