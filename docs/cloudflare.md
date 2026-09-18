@@ -50,5 +50,6 @@ npx wrangler dev --config dist/server/wrangler.json   # run it in the Workers ru
 ## Notes from the first deploy
 
 - Production branch is set in Cloudflare → Worker → Settings → Build → Branch control.
-  "Retry build" re-runs the SAME branch/commit; to build a newly selected branch, push a commit.
+  "Retry build" re-runs the SAME branch/commit; to build a newly selected branch, push a commit
+  AFTER saving the branch (pushes made before the change are ignored).
 - `NEXT_PUBLIC_SUPABASE_URL` is the bare project URL (`https://<ref>.supabase.co`) — no `/rest/v1/`.
