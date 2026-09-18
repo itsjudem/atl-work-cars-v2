@@ -20,5 +20,5 @@ Placeholders (only in `src/data/site.ts`): phone (770) 000-0000, info@atlworkcar
 - Validation rules live once: `src/lib/application-schema.ts`, `src/lib/contact-schema.ts` — used by browser and server.
 - Internal-only data goes in `src/lib/internal/` behind `import "server-only"`.
 - Every URL ends in `/` (`trailingSlash: true`). Titles are complete (`title.absolute`), never templated.
-- Never `output: "export"`. Cloudflare is reached through vinext or OpenNext at the end of Phase 2.
+- Never `output: "export"`. Cloudflare runs the same code through **vinext** (`npm run build:vinext`; see `docs/cloudflare.md`). Worker name `atl-work-cars-v2` — never `atl-work-cars`.
 - Run `npm run check` (typecheck + lint + build) before every commit/deploy.
