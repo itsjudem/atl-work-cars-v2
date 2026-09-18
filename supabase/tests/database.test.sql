@@ -353,6 +353,19 @@ select test.throws($$insert into storage.objects (bucket_id, name) values ('vehi
 select test.rows($$delete from storage.objects where bucket_id = 'vehicle-photos'$$, 0, 'Sales cannot delete photos (0 rows)');
 select test.reset();
 
+-- =================================================================== car photo + facts history
+\echo '--- car photo and vehicle-facts edits (Fleet Manager)'
+select test.act_as('fleet');
+select test.rows($$update vehicles set photo_path = 'awc-103-1.jpg', photo_alt = 'White Nissan Sentra, front view' where code = 'awc-103'$$, 1, 'Fleet adds a photo with a description');
+select test.rows($$update vehicles set photo_alt = 'White 2019 Nissan Sentra' where code = 'awc-103'$$, 1, 'Fleet edits the photo description');
+select test.rows($$update vehicles set rideshare_note = '4 doors, seats 5.' where code = 'awc-103'$$, 1, 'Fleet edits the vehicle facts');
+select test.rows($$update vehicles set photo_path = null, photo_alt = null where code = 'awc-103'$$, 1, 'Fleet removes the photo');
+select test.reset();
+select test.ok((select count(*) from activity_log a join vehicles v on v.id = a.record_id
+  where v.code = 'awc-103' and a.action = 'edited' and a.details like '%photo%') = 3, 'photo changes logged as edits');
+select test.ok(exists (select 1 from activity_log a join vehicles v on v.id = a.record_id
+  where v.code = 'awc-103' and a.details = 'vehicle note updated'), 'vehicle facts change logged');
+
 -- =================================================================== owner deletes
 \echo '--- deletes (Owner)'
 select test.act_as('owner');
