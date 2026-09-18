@@ -1,12 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { Analytics } from "@/components/Analytics";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
-import { JsonLd } from "@/components/JsonLd";
-import { StickyCtaBar } from "@/components/StickyCtaBar";
 import { site } from "@/data/site";
-import { localBusinessSchema } from "@/lib/structured-data";
 import "./globals.css";
 
 // Self-hosted from src/fonts (SIL OFL). No request to a font CDN at runtime or build.
@@ -39,19 +33,14 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+/**
+ * Root layout: document shell and fonts only. The public site's chrome lives in
+ * app/(site)/layout.tsx; the admin has its own layout in app/admin/layout.tsx.
+ */
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${publicSans.variable} ${barlow.variable}`}>
-      <body className="flex min-h-dvh flex-col">
-        <Header />
-        <main id="main" className="flex-1">
-          {children}
-        </main>
-        <Footer />
-        <StickyCtaBar />
-        <JsonLd data={localBusinessSchema()} />
-        <Analytics />
-      </body>
+      <body className="flex min-h-dvh flex-col">{children}</body>
     </html>
   );
 }

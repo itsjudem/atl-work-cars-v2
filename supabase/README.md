@@ -19,6 +19,30 @@ Everything about the database lives in code here, so it can be rebuilt from scra
 
 Run `setup-all.sql` only once per project. To change the schema later, add a new migration file and run just that file.
 
+## Login settings (per project, in the Supabase dashboard)
+
+**Authentication → Sign In / Providers:** Email on; **"Allow new users to sign up" OFF** (invite only).
+
+**Authentication → URL Configuration**
+- Site URL: the site this project serves (testing: the Vercel preview URL; live: `https://atlworkcars.com`).
+- Redirect URLs — add every host the admin runs on, each ending in `/**`:
+  - `http://localhost:3000/**`
+  - `https://*-jdelite.vercel.app/**` (Vercel previews)
+  - `https://atl-work-cars-v2-neon.vercel.app/**`
+  - later: the Cloudflare address and `https://atlworkcars.com/**`
+
+**Authentication → Emails → Templates** — replace the link in two templates so it lands on
+`/auth/confirm/`, which signs the person in and sends them to `/admin/set-password/`:
+
+| Template | Link (use in the `href`) |
+|---|---|
+| Invite user | `{{ .RedirectTo }}?token_hash={{ .TokenHash }}&type=invite` |
+| Reset password | `{{ .RedirectTo }}?token_hash={{ .TokenHash }}&type=recovery` |
+
+The admin passes `RedirectTo` = `<this site>/auth/confirm/`, so the same template works on
+previews, production and localhost. The built-in email sender is for testing only (a few
+emails an hour); connect Resend (Authentication → Emails → SMTP Settings) before inviting real staff.
+
 ## Rules the database enforces
 
 - Only an Owner changes roles or active status; nobody changes their own role or deactivates themselves; there is always at least one active Owner.

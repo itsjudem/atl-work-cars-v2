@@ -85,6 +85,11 @@ Do **not** use static export. The Cloudflare move happens at the end of Phase 2 
 
 The Supabase schema, setup steps and tests live in `supabase/` — see `supabase/README.md`.
 
+The staff admin lives at `/admin` (its own layout, no public chrome, `noindex`, never cached).
+`src/proxy.ts` refreshes the login and sends logged-out visitors to `/admin/login/`; every
+admin page and action re-checks the login with `getClaims()` and reads the person's role
+and active status from `profiles` on every request. Public pages live in `src/app/(site)/`.
+
 ## Project layout
 
 ```
