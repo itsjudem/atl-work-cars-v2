@@ -366,6 +366,49 @@ select test.ok((select count(*) from activity_log a join vehicles v on v.id = a.
 select test.ok(exists (select 1 from activity_log a join vehicles v on v.id = a.record_id
   where v.code = 'awc-103' and a.details = 'vehicle note updated'), 'vehicle facts change logged');
 
+-- =================================================================== history completeness
+-- Runs every branch of every history trigger at least once (a missed branch once
+-- hid a type error that broke photo uploads).
+\echo '--- history completeness (Owner)'
+select test.act_as('owner');
+insert into contacts (first_name, last_name, phone, email, zip, county, source)
+  values ('Hana', 'Hist', '4045550111', 'hana@example.com', '30303', 'Fulton County', 'manual');
+select test.rows($$update contacts set first_name = 'Hanna', last_name = 'Histo', phone = '4045550112', email = 'hanna@example.com',
+  zip = '30304', county = 'DeKalb County' where last_name = 'Hist'$$, 1, 'every contact detail edited at once');
+select test.rows($$update contacts set fit = 'high' where last_name = 'Histo'$$, 1, 'fit only');
+select test.rows($$update contacts set intent = 'low' where last_name = 'Histo'$$, 1, 'intent only');
+select test.rows($$update contacts set contacted = true where last_name = 'Histo'$$, 1, 'contact marked contacted');
+select test.rows($$update contacts set contacted = false where last_name = 'Histo'$$, 1, 'contact marked not contacted');
+select test.rows($$update contacts set archived_at = now() where last_name = 'Histo'$$, 1, 'contact archived');
+select test.rows($$update contacts set archived_at = null where last_name = 'Histo'$$, 1, 'contact restored');
+insert into notes (contact_id, body) select id, 'Temp note' from contacts where last_name = 'Histo';
+select test.rows($$delete from notes where body = 'Temp note'$$, 1, 'contact note deleted directly');
+select test.rows($$update vehicles set year = 2021, make = 'Honda ', model = 'Fit EX', trim = 'Sport', body_type = 'compact',
+  weekly_rate = 300, deposit = 250, mileage_policy = '1,500 miles/week', odometer = 42000, seats = 4, fuel_economy = 36.5,
+  pickup_location = 'Lawrenceville', is_featured = true, is_sample = false where code = 'awc-104'$$, 1, 'every car field edited at once');
+select test.rows($$update vehicles set trim = null, weekly_rate = null, deposit = null, mileage_policy = null, odometer = null,
+  fuel_economy = null, pickup_location = null, rideshare_note = null where code = 'awc-104'$$, 1, 'optional car fields cleared');
+select test.rows($$update vehicles set is_published = false where code = 'awc-104'$$, 1, 'car hidden from website');
+select test.rows($$update vehicles set is_published = true where code = 'awc-104'$$, 1, 'car shown on website');
+select test.rows($$update vehicles set status = 'in_repair' where code = 'awc-104'$$, 1, 'car set in repair');
+select test.reset();
+
+select test.ok((select details from activity_log a join contacts c on c.id = a.record_id
+  where c.last_name = 'Histo' and a.action = 'details_edited') like 'first name: Hana → Hanna; last name: Hist → Histo; phone: (404) 555-0111 → (404) 555-0112;%county: Fulton County → DeKalb County',
+  'contact edit history lists every field, old and new');
+select test.ok((select count(*) from activity_log a join contacts c on c.id = a.record_id
+  where c.last_name = 'Histo' and a.action in ('rating_changed', 'contacted', 'not_contacted', 'archived', 'restored', 'note_added', 'note_deleted')) = 8,
+  'rating x2, contacted, not contacted, archived, restored, note added, note deleted all logged');
+select test.ok((select details from activity_log a join vehicles v on v.id = a.record_id
+  where v.code = 'awc-104' and a.action = 'edited' order by a.id limit 1) like 'year: 2019 → 2021; model: Fit → Fit EX; trim: (empty) → Sport;%sample listing: true → false',
+  'car edit history lists every field, old and new (make only trimmed, so not listed)');
+select test.ok((select count(*) from activity_log a join vehicles v on v.id = a.record_id
+  where v.code = 'awc-104' and a.action = 'edited') = 2, 'both car edits logged');
+select test.ok((select count(*) from activity_log a join vehicles v on v.id = a.record_id
+  where v.code = 'awc-104' and a.action in ('hidden_from_website', 'shown_on_website', 'status_changed')) = 3, 'hide, show and status change logged');
+select test.ok((select bool_and(actor_id = test.id('owner')) from activity_log a join vehicles v on v.id = a.record_id
+  where v.code = 'awc-104' and a.action <> 'added'), 'every car entry names the Owner');
+
 -- =================================================================== owner deletes
 \echo '--- deletes (Owner)'
 select test.act_as('owner');
@@ -386,7 +429,7 @@ select test.reset();
 select test.ok((select details from activity_log where action = 'deleted' and record_type = 'contact') = 'Contact deleted: Jane D.', 'delete entry is a short name only');
 select test.ok((select details from activity_log where action = 'deleted' and record_type = 'application') like 'Application deleted: Jane D. (AWC-%', 'application delete entry is short');
 select test.ok(exists (select 1 from activity_log where action = 'note_deleted'), 'direct note delete logged');
-select test.ok(not exists (select 1 from activity_log where action = 'note_deleted' and record_type = 'contact'), 'cascaded note deletes not double-logged');
+select test.ok((select count(*) from activity_log where action = 'note_deleted' and record_type = 'contact') = 1, 'cascaded note deletes not double-logged (only the one direct delete)');
 
 -- =================================================================== RLS everywhere
 \echo '--- RLS enabled on every table'
