@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { lookupStaff } from "@/lib/admin/session";
-import { roleLabels } from "@/lib/admin/roles";
+import { can, roleLabels, type StaffRole } from "@/lib/admin/roles";
 import { site } from "@/data/site";
 import { signOut } from "./actions";
 
@@ -12,6 +12,11 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false, nocache: true },
 };
 export const dynamic = "force-dynamic";
+
+/** Links a person sees. Pages still check permissions themselves. */
+function navFor(role: StaffRole) {
+  return [{ label: "Dashboard", href: "/admin/" }, ...(can.manageStaff(role) ? [{ label: "Staff", href: "/admin/staff/" }] : [])];
+}
 
 /** The admin's own simple layout: no public header, footer or sticky bar. */
 export default async function AdminLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -41,11 +46,13 @@ export default async function AdminLayout({ children }: Readonly<{ children: Rea
         {staff ? (
           <nav aria-label="Admin" className="mx-auto w-full max-w-6xl overflow-x-auto px-4 sm:px-6">
             <ul className="flex gap-1 pb-2 text-sm">
-              <li>
-                <Link href="/admin/" className="inline-flex min-h-11 items-center rounded-md px-3 text-white no-underline hover:bg-white/10">
-                  Dashboard
-                </Link>
-              </li>
+              {navFor(staff.role).map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="inline-flex min-h-11 items-center whitespace-nowrap rounded-md px-3 text-white no-underline hover:bg-white/10">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </nav>
         ) : null}
