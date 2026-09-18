@@ -16,7 +16,7 @@ Placeholders (only in `src/data/site.ts`): phone (770) 000-0000, info@atlworkcar
 ## Conventions
 - Next.js 16 App Router, TypeScript strict, Tailwind v4 via `@theme` in `src/app/globals.css`. No `tailwind.config.js`. No UI kit, form library or state manager.
 - All content lives in `src/data/`. Components never hardcode a phone, price, city or FAQ answer. No `any`.
-- Server components by default. Client components: MobileMenu, StickyCtaBar, Analytics, ApplicationForm, ContactForm. Adding another needs a reason.
+- Server components by default. Client components: MobileMenu, StickyCtaBar, Analytics, ApplicationForm, ContactForm, admin NewContactForm (keeps typed values across the duplicate warning). Adding another needs a reason.
 - Validation rules live once: `src/lib/application-schema.ts`, `src/lib/contact-schema.ts` — used by browser and server.
 - Internal-only data goes in `src/lib/internal/` behind `import "server-only"`.
 - Every URL ends in `/` (`trailingSlash: true`). Titles are complete (`title.absolute`), never templated.

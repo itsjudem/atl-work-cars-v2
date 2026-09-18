@@ -38,9 +38,9 @@ export default async function AdminHome() {
       heading: "Needs attention",
       tiles: [
         { label: "Applications not yet contacted", count: appsNew, href: "/admin/applications/?contacted=no" },
-        { label: "Contacts not yet contacted", count: contactsNew },
-        { label: "Hot leads not yet contacted", count: hotNew },
-        { label: "Unrated contacts", count: unrated },
+        { label: "Contacts not yet contacted", count: contactsNew, href: "/admin/contacts/" },
+        { label: "Hot leads not yet contacted", count: hotNew, href: "/admin/contacts/?category=hot" },
+        { label: "Unrated contacts", count: unrated, href: "/admin/contacts/?view=all&category=unrated" },
       ],
     },
     {

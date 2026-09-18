@@ -263,12 +263,16 @@ select test.rows($$update applications set contact_id = (select id from contacts
 select test.throws($$update contacts set lead_category = 'hot' where last_name = 'Doe'$$, '428C9', 'lead category cannot be written directly');
 select test.rows($$update contacts set fit = 'high', intent = 'high' where last_name = 'Doe'$$, 1, 'Sales sets fit and intent');
 select test.ok((select lead_category from contacts where last_name = 'Doe') = 'hot', 'High fit + High intent = Hot');
+select test.ok((select lead_rank from contacts where last_name = 'Doe') = 1, 'Hot sorts first (rank 1)');
+select test.ok((select lead_rank from contacts where last_name = 'Form') = 2, 'Unrated sorts second (rank 2)');
 update contacts set fit = 'high', intent = 'low' where last_name = 'Doe';
 select test.ok((select lead_category from contacts where last_name = 'Doe') = 'warm', 'High fit + Low intent = Warm');
 update contacts set fit = 'low', intent = 'high' where last_name = 'Doe';
 select test.ok((select lead_category from contacts where last_name = 'Doe') = 'low_priority', 'Low fit + High intent = Low-priority');
 update contacts set fit = 'low', intent = 'low' where last_name = 'Doe';
 select test.ok((select lead_category from contacts where last_name = 'Doe') = 'dead', 'Low fit + Low intent = Dead');
+select test.ok((select lead_rank from contacts where last_name = 'Doe') = 5, 'Dead sorts last (rank 5)');
+select test.throws($$update contacts set lead_rank = 1 where last_name = 'Doe'$$, '428C9', 'lead rank cannot be written directly');
 select test.ok((select archived_at is null from contacts where last_name = 'Doe'), 'Dead lead is not auto-archived');
 update contacts set intent = null where last_name = 'Doe';
 select test.ok((select lead_category from contacts where last_name = 'Doe') = 'unrated', 'missing intent = Unrated');
