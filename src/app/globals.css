@@ -1,0 +1,136 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens. Colour and type are defined ONCE here. Components use the
+ * generated utilities (bg-navy, text-ink-soft, font-heading …) — never raw hex.
+ * All text pairs below are checked at 4.5:1 or better.
+ */
+@theme {
+  --color-base: #f4f7fb;
+  --color-surface: #ffffff;
+  --color-surface-muted: #eef2f7;
+  --color-navy: #0f2440;
+  --color-navy-soft: #c5d2e3;
+  --color-navy-link: #8fb8ff;
+  --color-ink: #14263d;
+  --color-ink-soft: #47576b;
+  --color-brand: #0b57c2;
+  --color-brand-strong: #094aa5;
+  --color-accent: #0b6b39;
+  --color-accent-soft: #e6f4ec;
+  --color-caution: #7a4b00;
+  --color-caution-soft: #fdf1d8;
+  --color-danger: #b3261e;
+  --color-line: #d7dee7;
+
+  --font-sans: var(--font-public-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-barlow), "Arial Narrow", ui-sans-serif, system-ui, sans-serif;
+
+  /* Height of the mobile sticky CTA bar; the spacer reserves exactly this. */
+  --spacing-sticky-bar: 4.5rem;
+  --spacing-header: 4rem;
+}
+
+@layer base {
+  html {
+    /* Anchor targets land below the sticky header. */
+    scroll-padding-top: calc(var(--spacing-header) + 1rem);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-base text-ink font-sans antialiased;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-heading text-ink;
+    text-wrap: balance;
+    line-height: 1.1;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a {
+    @apply text-brand underline-offset-4;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+
+  /* Inputs at 16px+ so mobile Safari never zooms on focus. */
+  input,
+  select,
+  textarea {
+    font-size: max(1rem, 16px);
+  }
+
+  summary {
+    cursor: pointer;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@utility container-page {
+  @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
+}
+
+@utility btn {
+  @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-lg px-5 py-3 text-base font-semibold no-underline transition-colors;
+}
+
+@utility btn-primary {
+  @apply btn bg-brand text-white hover:bg-brand-strong;
+}
+
+@utility btn-secondary {
+  @apply btn border-2 border-brand bg-surface text-brand hover:bg-surface-muted;
+}
+
+@utility btn-on-dark {
+  @apply btn border-2 border-navy-soft text-white hover:bg-white/10;
+}
+
+@utility section {
+  @apply py-14 sm:py-20;
+}
+
+@utility section-heading {
+  @apply text-3xl font-bold sm:text-4xl;
+}
+
+@utility lede {
+  @apply mt-3 max-w-2xl text-lg text-ink-soft;
+}
+
+@utility card {
+  @apply rounded-xl border border-line bg-surface p-5;
+}
+
+.prose-legal h2 {
+  @apply mt-10 text-2xl font-bold;
+}
+
+.prose-legal p {
+  @apply mt-3 leading-relaxed text-ink-soft;
+}
