@@ -46,3 +46,9 @@ Authentication → URL Configuration → Redirect URLs: add
 npm run build:vinext                       # build for Cloudflare
 npx wrangler dev --config dist/server/wrangler.json   # run it in the Workers runtime
 ```
+
+## Notes from the first deploy
+
+- Production branch is set in Cloudflare → Worker → Settings → Build → Branch control.
+  "Retry build" re-runs the SAME branch/commit; to build a newly selected branch, push a commit.
+- `NEXT_PUBLIC_SUPABASE_URL` is the bare project URL (`https://<ref>.supabase.co`) — no `/rest/v1/`.
