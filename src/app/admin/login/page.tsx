@@ -26,7 +26,7 @@ export default async function LoginPage({ searchParams }: Props) {
         <Notice tone="error">The admin isn&apos;t connected to the database yet. Add the Supabase environment variables and redeploy.</Notice>
       ) : null}
       {error === "1" ? <Notice tone="error">That email and password combination didn&apos;t work. Please try again.</Notice> : null}
-      {error === "link" ? <Notice tone="error">That link is invalid or has expired. Ask for a new one.</Notice> : null}
+      {error === "link" ? <Notice tone="error">That link is invalid or has expired. Ask for a new one, and open it in the same browser you requested it from.</Notice> : null}
       {reason === "inactive" ? <Notice tone="error">Your admin access has been turned off. Contact an Owner if you think this is a mistake.</Notice> : null}
       {one("signed_out") ? <Notice tone="success">You&apos;ve been logged out.</Notice> : null}
 
