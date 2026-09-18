@@ -10,12 +10,14 @@ import { json, readJson } from "@/lib/leads/http";
 import { generateReference } from "@/lib/leads/reference-id";
 import { hasErrors } from "@/lib/validation";
 
+const SAVE_FAILED = "We couldn't save your application just now. Please try again in a minute, or call or text us.";
+
 export async function POST(request: Request): Promise<Response> {
   const read = await readJson(request);
   if (!read.ok) return read.response;
 
   // Reference and timestamp are created here, never in the browser.
-  const reference = generateReference();
+  let reference = generateReference();
   const submittedAt = new Date().toISOString();
 
   // Bots fill the hidden field: discard quietly, but look like a normal success.
@@ -31,17 +33,20 @@ export async function POST(request: Request): Promise<Response> {
 
   const vehicle = values.vehicleId ? getVehicle(values.vehicleId) : undefined;
 
+  const data = toApplicationRecord(values);
+  const vehicleInfo = vehicle ? { id: vehicle.id, label: vehicleLabel(vehicle), isSample: vehicle.isPlaceholder } : null;
+
   try {
-    await deliver({
-      type: "application",
-      reference,
-      submittedAt,
-      vehicle: vehicle ? { id: vehicle.id, label: vehicleLabel(vehicle), isSample: vehicle.isPlaceholder } : null,
-      data: toApplicationRecord(values),
-    });
+    let result = await deliver({ type: "application", reference, submittedAt, vehicle: vehicleInfo, data });
+    // References are random; on the rare collision, try once more with a fresh one.
+    if (result.duplicateReference) {
+      reference = generateReference();
+      result = await deliver({ type: "application", reference, submittedAt, vehicle: vehicleInfo, data });
+    }
+    if (result.requiredFailed) return json({ ok: false, error: SAVE_FAILED }, 500);
   } catch (err) {
     console.error("[apply] unexpected error", err instanceof Error ? err.message : err);
-    return json({ ok: false, error: "Something went wrong on our side. Please call or text us instead." }, 500);
+    return json({ ok: false, error: SAVE_FAILED }, 500);
   }
 
   return json({ ok: true, reference });

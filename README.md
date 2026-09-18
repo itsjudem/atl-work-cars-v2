@@ -42,10 +42,12 @@ Everything a non-developer might change lives in `src/data/`. No component hardc
 `POST /api/apply/` and `POST /api/contact/` share validation with the browser forms (`src/lib/application-schema.ts`, `src/lib/contact-schema.ts`), rebuild the body field by field, drop honeypot hits with a normal success response, and generate the application reference (`AWC-YYYYMMDD-XXXXX`, no 0/O/1/I) and timestamp on the server.
 
 Every lead goes through `deliver()` in `src/lib/leads/deliver.ts`:
-1. It is always **logged** (`[lead] {...}`) — visible in Vercel → project → Logs.
-2. If `LEAD_WEBHOOK_URL` is set, it is **POSTed** there as JSON. Test with a free URL from https://webhook.site.
-
-To add email, a CRM, Google Sheets or a database, add another sink to `deliver.ts`. Phase 2 swaps in Supabase there.
+1. **Database** — when the Supabase variables are set, applications are saved to `applications`
+   and contact-form messages to `contacts` (source "contact form", Unrated), using the secret key.
+   This step is required: if it fails, the visitor sees "please try again" instead of a success
+   message, so a lead is never reported as received when it wasn't saved.
+2. **Log** — always written (`[lead] {...}`), visible in Vercel → project → Logs.
+3. **Webhook** — optional; POSTed to `LEAD_WEBHOOK_URL` if set.
 
 Test from the command line (an incomplete submission must return **400**, not 500 and not 200):
 
