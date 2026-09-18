@@ -2,6 +2,10 @@
 
 Worked on the **testing** Supabase project + the `phase-2` Vercel preview.
 
+**Result (A9, 2026-09-18): 62 passed · 0 failed · 1 blocked (ADM-005: invite emails need Resend) · 1 not applicable.**
+
+Live on Vercel (`phase-2` preview) and Cloudflare Workers (`atl-work-cars-v2.malasadojude.workers.dev`), both on the testing database.
+
 Status: ✅ passed · ⏳ to click-test · 🔒 blocked (reason given) · ➖ not applicable
 
 "DB test" means an automated check in `supabase/tests/database.test.sql` (**185/185 pass**) —
@@ -38,40 +42,40 @@ confirmed it on the preview.
 | ADM-025 | Incomplete application refused, nothing saved | ✅ | Build check: POST {} → 400 before any save |
 | ADM-026 | Nothing goes to the Google Sheet | ✅ | No sheet code or env var in the site |
 | ADM-027 | Import counts match the sheet | ➖ | Owner: no earlier submissions to import |
-| ADM-028 | Applications list: 25/page, newest first, filters, search | ⏳ | Click-test |
+| ADM-028 | Applications list: 25/page, newest first, filters, search | ✅ | Owner click-tested on the preview (A8) |
 | ADM-029 | Application answers can't be edited | ✅ | DB test (AWC04); no edit form in UI |
 | ADM-030 | Mark contacted records who/when; untick clears | ✅ | Owner (A5); DB test |
-| ADM-031 | Archive hides; restore brings back | ⏳ | DB test ✅; click-test |
-| ADM-032 | Link to existing contact via search | ⏳ | Click-test |
+| ADM-031 | Archive hides; restore brings back | ✅ | Owner click-tested on the preview (A8) |
+| ADM-032 | Link to existing contact via search | ✅ | Owner click-tested on the preview (A8) |
 | ADM-033 | Create contact pre-fills; offers existing match | ✅ | Owner (A5) |
-| ADM-034 | Linked contact's lead category on list + detail | ⏳ | Click-test |
+| ADM-034 | Linked contact's lead category on list + detail | ✅ | Owner click-tested on the preview (A8) |
 | ADM-035 | Needs attention sort order | ✅ | Owner (A6) |
 | ADM-036 | Contact edit saves; history old + new | ✅ | DB test (every field) |
-| ADM-037 | Edits validated like public form | ⏳ | Click-test (7-digit phone) |
-| ADM-038 | Add by hand warns on existing phone/email | ⏳ | Click-test |
-| ADM-039 | "Possible duplicate" flag | ⏳ | Click-test |
+| ADM-037 | Edits validated like public form | ✅ | Owner click-tested on the preview (A8) |
+| ADM-038 | Add by hand warns on existing phone/email | ✅ | Owner click-tested on the preview (A8) |
+| ADM-039 | "Possible duplicate" flag | ✅ | Owner click-tested on the preview (A8) |
 | ADM-040 | Every fit × intent → right category | ✅ | DB test |
 | ADM-041 | Fit or intent unrated → Unrated | ✅ | DB test |
 | ADM-042 | Category can't be set directly | ✅ | DB test (generated column) |
 | ADM-043 | Each category shows colour, name, What to do | ✅ | Owner (A6) |
-| ADM-044 | Dead lead offers archive, no auto-archive | ⏳ | Click-test |
+| ADM-044 | Dead lead offers archive, no auto-archive | ✅ | Owner click-tested on the preview (A8) |
 | ADM-045 | Fleet adds a car with photo + description | ✅ | Owner did it as Owner (A7); Owner click-tested as each role (A8) |
 | ADM-046 | Can't save Rented without renter | ✅ | DB test; UI only sets Rented through the renter picker |
-| ADM-047 | Leaving Rented asks, then removes renter | ⏳ | Click-test |
-| ADM-048 | Already-renting warning, still allowed | ⏳ | Click-test |
+| ADM-047 | Leaving Rented asks, then removes renter | ✅ | Owner click-tested on the preview (A8) |
+| ADM-048 | Already-renting warning, still allowed | ✅ | Owner click-tested on the preview (A8) |
 | ADM-049 | Rented car can't be deleted | ✅ | DB test; UI panel |
 | ADM-050 | Renting contact can't be deleted | ✅ | DB test; UI panel |
-| ADM-051 | Hidden cars not on website | ⏳ | Public view filters `is_published`; click-test |
+| ADM-051 | Hidden cars not on website | ✅ | Owner click-tested on the preview (A8) |
 | ADM-052 | Website never shows renter or notes | ✅ | Public view has no renter/note columns |
 | ADM-053 | Change on site within a minute, no redeploy | ✅ | Owner (A7) |
 | ADM-054 | Sample cars: only "Sample listing" badge | ✅ | Owner (A7) |
-| ADM-055 | Applying for a sample car shows sample message | ⏳ | Click-test |
-| ADM-056 | /apply/?vehicle=awc-102 still works | ⏳ | Click-test |
+| ADM-055 | Applying for a sample car shows sample message | ✅ | Owner click-tested on the preview (A8) |
+| ADM-056 | /apply/?vehicle=awc-102 still works | ✅ | Owner click-tested on the preview (A8) |
 | ADM-057 | Every action creates a history entry | ✅ | DB test runs every history branch (A8) |
 | ADM-058 | History in Atlanta time | ✅ | Owner (A5, "ET") |
 | ADM-059 | Nobody can edit/delete history | ✅ | DB test (Owner refused too) |
 | ADM-060 | Delete confirmation names the record | ✅ | Owner (A6); same panel on apps + cars |
 | ADM-061 | Deleting contact keeps + unlinks applications | ✅ | DB test |
-| ADM-062 | Admin works on a phone | ⏳ | Click-test on a phone |
+| ADM-062 | Admin works on a phone | ✅ | Owner on iPhone (A8): menu and tables scroll within themselves, no page side-scroll |
 | ADM-063 | No static export | ✅ | next.config.ts |
-| ADM-064 | Everything works on Cloudflare | 🔒 | A9 |
+| ADM-064 | Everything works on Cloudflare | ✅ | Owner on https://atl-work-cars-v2.malasadojude.workers.dev (A9): login, application form saved, car hidden from /cars/. Invites still wait on Resend (see ADM-005) |
