@@ -1,4 +1,5 @@
-import { getVehicle, vehicleLabel } from "@/data/vehicles";
+import { vehicleLabel } from "@/data/vehicles";
+import { getPublicVehicle } from "@/lib/vehicles/public";
 import {
   isHoneypotFilled,
   parseApplicationBody,
@@ -31,7 +32,7 @@ export async function POST(request: Request): Promise<Response> {
     return json({ ok: false, error: "Please fix the highlighted fields.", errors }, 400);
   }
 
-  const vehicle = values.vehicleId ? getVehicle(values.vehicleId) : undefined;
+  const vehicle = values.vehicleId ? await getPublicVehicle(values.vehicleId) : undefined;
 
   const data = toApplicationRecord(values);
   const vehicleInfo = vehicle ? { id: vehicle.id, label: vehicleLabel(vehicle), isSample: vehicle.isPlaceholder } : null;

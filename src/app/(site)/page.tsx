@@ -15,7 +15,8 @@ import { cta } from "@/data/navigation";
 import { homePricingIds, pricingCopy } from "@/data/policies";
 import { requirementsCopy } from "@/data/requirements";
 import { serviceAreaCopy } from "@/data/service-areas";
-import { hasPlaceholderInventory, homepageVehicles, vehiclesCopy } from "@/data/vehicles";
+import { hasPlaceholderInventory, vehiclesCopy } from "@/data/vehicles";
+import { getHomepageVehicles } from "@/lib/vehicles/public";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -36,8 +37,11 @@ function SectionHead({ id, title, lede }: { id: string; title: string; lede?: st
   );
 }
 
-export default function HomePage() {
-  const preview = homepageVehicles();
+// Rebuilt at most once a minute, and immediately when staff save a car.
+export const revalidate = 60;
+
+export default async function HomePage() {
+  const preview = await getHomepageVehicles();
   return (
     <>
       {/* 1. HERO — text-first on a solid navy band. No image above the headline. */}

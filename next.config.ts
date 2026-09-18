@@ -7,6 +7,8 @@ const nextConfig: NextConfig = {
   // /apply/?vehicle=awc-102 are identical on every host.
   trailingSlash: true,
   poweredByHeader: false,
+  // Car photos are served from Supabase Storage.
+  images: { remotePatterns: [{ protocol: "https", hostname: "*.supabase.co", pathname: "/storage/v1/object/public/vehicle-photos/**" }] },
   async headers() {
     return [
       {

@@ -19,6 +19,7 @@ function navFor(role: StaffRole) {
     { label: "Dashboard", href: "/admin/" },
     { label: "Applications", href: "/admin/applications/" },
     { label: "Contacts", href: "/admin/contacts/" },
+    { label: "Cars", href: "/admin/cars/" },
     ...(can.manageStaff(role) ? [{ label: "Staff", href: "/admin/staff/" }] : [])];
 }
 

@@ -8,7 +8,8 @@ export type Unknown<T> = T | null;
 
 export type BodyType = "sedan" | "compact" | "hatchback" | "hybrid" | "suv" | "minivan";
 
-export type Availability = "available" | "limited" | "reserved" | "rented" | "maintenance";
+/** Same three statuses as the database (vehicles.status). */
+export type Availability = "available" | "rented" | "in_repair";
 
 export interface Vehicle {
   /** Stable code used in URLs (/apply/?vehicle=awc-101). Never renumber. */

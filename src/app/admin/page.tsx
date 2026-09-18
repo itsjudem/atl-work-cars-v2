@@ -46,9 +46,9 @@ export default async function AdminHome() {
     {
       heading: "Cars",
       tiles: [
-        { label: "Available", count: available },
-        { label: "Rented", count: rented },
-        { label: "In repair", count: repair },
+        { label: "Available", count: available, href: "/admin/cars/?status=available" },
+        { label: "Rented", count: rented, href: "/admin/cars/?status=rented" },
+        { label: "In repair", count: repair, href: "/admin/cars/?status=in_repair" },
       ],
     },
   ];

@@ -1,6 +1,11 @@
 import type { Availability, BodyType, Vehicle } from "./types";
 
 /**
+ * FALLBACK ONLY. Since Phase 2, cars live in the database (`vehicles` table) and
+ * the site reads them through src/lib/vehicles/public.ts. This list is used only
+ * when Supabase isn't configured (e.g. a deploy without the env vars), and it
+ * matches the database seed (supabase/migrations/…001100_seed_sample_vehicles.sql).
+ *
  * DEMO INVENTORY. No real vehicles exist yet. Every entry is marked
  * `isPlaceholder: true`, which shows the "Sample listing" badge and the
  * inventory notice automatically. Replace these with real cars (and set
@@ -45,7 +50,7 @@ export const vehicles: Vehicle[] = [
     seats: 5,
     fuelEconomy: null,
     rideshareEligibilityNote: "4 doors, seats 5, model year 2021.",
-    availability: "limited",
+    availability: "available",
     featured: true,
     pickupLocation: null,
     photo: null,
@@ -87,7 +92,7 @@ export const vehicles: Vehicle[] = [
     seats: 5,
     fuelEconomy: null,
     rideshareEligibilityNote: "4 doors, seats 5, model year 2019.",
-    availability: "reserved",
+    availability: "available",
     featured: false,
     pickupLocation: null,
     photo: null,
@@ -108,7 +113,7 @@ export const vehicles: Vehicle[] = [
     seats: 5,
     fuelEconomy: null,
     rideshareEligibilityNote: "4 doors, seats 5, model year 2020.",
-    availability: "rented",
+    availability: "available",
     featured: false,
     pickupLocation: null,
     photo: null,
@@ -129,7 +134,7 @@ export const vehicles: Vehicle[] = [
     seats: 7,
     fuelEconomy: null,
     rideshareEligibilityNote: "4 doors plus sliding rear doors, seats 7, model year 2018.",
-    availability: "maintenance",
+    availability: "in_repair",
     featured: false,
     pickupLocation: null,
     photo: null,
@@ -152,10 +157,8 @@ export const availabilityPresentation: Record<
   { label: string; tone: "go" | "caution" | "muted" }
 > = {
   available: { label: "Available now", tone: "go" },
-  limited: { label: "Limited availability", tone: "caution" },
-  reserved: { label: "Reserved", tone: "muted" },
   rented: { label: "Currently rented", tone: "muted" },
-  maintenance: { label: "Temporarily unavailable", tone: "muted" },
+  in_repair: { label: "Temporarily unavailable", tone: "muted" },
 };
 
 export const vehiclesCopy = {
@@ -167,6 +170,7 @@ export const vehiclesCopy = {
     "Live inventory is being added. The cars shown are sample listings to illustrate the kinds of vehicles we rent. Apply and we'll contact you about the cars actually available.",
   sampleApplyMessage: "This is a sample listing. We will contact you about the cars actually available.",
   pickupFallback: "Confirmed after approval",
+  emptyNotice: "No cars are listed right now. Apply and we'll contact you as soon as one is available.",
 } as const;
 
 /* ---------- derived helpers (no hardcoded sample behaviour) ---------- */

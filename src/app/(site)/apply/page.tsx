@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { ApplicationForm, type SelectedVehicle } from "@/components/form/ApplicationForm";
 import { PageIntro } from "@/components/PageIntro";
 import { applyCopy } from "@/data/copy";
-import { bodyTypeLabels, getVehicle, vehicleLabel, vehiclesCopy } from "@/data/vehicles";
+import { bodyTypeLabels, vehicleLabel, vehiclesCopy } from "@/data/vehicles";
+import { getPublicVehicle } from "@/lib/vehicles/public";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -15,7 +16,7 @@ export const metadata: Metadata = pageMetadata({
 export default async function ApplyPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const params = await searchParams;
   const requested = typeof params.vehicle === "string" ? params.vehicle : null;
-  const found = requested ? getVehicle(requested) : undefined;
+  const found = requested ? await getPublicVehicle(requested) : undefined;
   const vehicle: SelectedVehicle | null = found
     ? { id: found.id, label: vehicleLabel(found), isSample: found.isPlaceholder, bodyTypeLabel: bodyTypeLabels[found.bodyType] }
     : null;
