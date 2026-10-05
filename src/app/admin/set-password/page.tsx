@@ -4,6 +4,7 @@ import { AuthCard, inputClass, Notice } from "@/components/admin/AuthCard";
 import { PASSWORD_MAX, PASSWORD_MIN } from "@/lib/admin/password";
 import { createClient } from "@/lib/supabase/server";
 import { setPassword } from "../actions";
+import { SubmitButton } from "@/components/admin/SubmitButton";
 
 export const metadata: Metadata = { title: { absolute: "Set your password | ATL Work Cars Admin" } };
 
@@ -37,7 +38,7 @@ export default async function SetPasswordPage({ searchParams }: Props) {
           <label htmlFor="confirm" className="block font-semibold">Confirm new password</label>
           <input id="confirm" name="confirm" type="password" autoComplete="new-password" minLength={PASSWORD_MIN} maxLength={PASSWORD_MAX} required className={inputClass} />
         </div>
-        <button type="submit" className="btn-primary">Save password</button>
+        <SubmitButton className="btn-primary" pendingLabel="Saving…">Save password</SubmitButton>
       </form>
     </AuthCard>
   );

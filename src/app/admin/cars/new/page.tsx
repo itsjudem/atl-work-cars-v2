@@ -6,6 +6,7 @@ import { type SearchParams } from "@/lib/admin/nav";
 import { can } from "@/lib/admin/roles";
 import { requireStaff } from "@/lib/admin/session";
 import { createCar } from "../actions";
+import { SubmitButton } from "@/components/admin/SubmitButton";
 
 export const metadata: Metadata = { title: { absolute: "Add car | ATL Work Cars Admin" } };
 
@@ -27,7 +28,7 @@ export default async function NewCarPage({ searchParams }: { searchParams: Promi
             <input id="code" name="code" required maxLength={40} pattern="[a-z0-9\-]{1,40}" aria-describedby="code-hint" className={`${input} sm:max-w-xs`} />
           </div>
           <CarFields />
-          <button type="submit" className="btn-primary sm:col-span-2 sm:justify-self-start">Add car</button>
+          <SubmitButton className="btn-primary sm:col-span-2 sm:justify-self-start" pendingLabel="Adding…">Add car</SubmitButton>
         </form>
       ) : (
         <p className="mt-6 rounded-xl border border-line bg-surface p-6 text-ink-soft">Only an Owner or Fleet Manager can add cars.</p>

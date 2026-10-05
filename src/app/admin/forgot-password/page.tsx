@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AuthCard, inputClass, Notice } from "@/components/admin/AuthCard";
 import { requestPasswordReset } from "../actions";
+import { SubmitButton } from "@/components/admin/SubmitButton";
 
 export const metadata: Metadata = { title: { absolute: "Forgot password | ATL Work Cars Admin" } };
 
@@ -22,7 +23,7 @@ export default async function ForgotPasswordPage({ searchParams }: Props) {
           <label htmlFor="email" className="block font-semibold">Email</label>
           <input id="email" name="email" type="email" autoComplete="username" required className={inputClass} />
         </div>
-        <button type="submit" className="btn-primary">Send reset link</button>
+        <SubmitButton className="btn-primary" pendingLabel="Sending…">Send reset link</SubmitButton>
       </form>
       <p className="mt-5">
         <Link href="/admin/login/" className="inline-flex min-h-11 items-center font-semibold">Back to log in</Link>

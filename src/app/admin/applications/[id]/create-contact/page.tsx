@@ -11,6 +11,7 @@ import { can } from "@/lib/admin/roles";
 import { requireStaff } from "@/lib/admin/session";
 import { createClient } from "@/lib/supabase/server";
 import { createContactFromApplication, linkContact } from "../../actions";
+import { SubmitButton } from "@/components/admin/SubmitButton";
 
 export const metadata: Metadata = { title: { absolute: "Create contact | ATL Work Cars Admin" } };
 
@@ -73,7 +74,7 @@ export default async function CreateContact({ params, searchParams }: { params: 
                 <form action={linkContact}>
                   <input type="hidden" name="id" value={app.id} />
                   <input type="hidden" name="contact_id" value={m.id} />
-                  <button type="submit" className="btn-primary min-h-11 py-2">Link to this contact</button>
+                  <SubmitButton className="btn-primary min-h-11 py-2">Link to this contact</SubmitButton>
                 </form>
               </li>
             ))}
@@ -111,7 +112,7 @@ export default async function CreateContact({ params, searchParams }: { params: 
           </select>
         </div>
         <div className="flex flex-wrap gap-2 sm:col-span-2">
-          <button type="submit" className="btn-primary">{matches.length ? "Create a new contact anyway" : "Create contact"}</button>
+          <SubmitButton className="btn-primary">{matches.length ? "Create a new contact anyway" : "Create contact"}</SubmitButton>
           <Link href={`/admin/applications/${id}/`} className="btn-secondary">Cancel</Link>
         </div>
       </form>

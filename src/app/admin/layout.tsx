@@ -4,6 +4,7 @@ import { lookupStaff } from "@/lib/admin/session";
 import { can, roleLabels, type StaffRole } from "@/lib/admin/roles";
 import { site } from "@/data/site";
 import { signOut } from "./actions";
+import { SubmitButton } from "@/components/admin/SubmitButton";
 
 // Admin pages are never indexed, never cached, and always built fresh for the
 // logged-in person. (robots.txt also disallows /admin; none are in the sitemap.)
@@ -41,9 +42,7 @@ export default async function AdminLayout({ children }: Readonly<{ children: Rea
                 {staff.fullName} · {roleLabels[staff.role]}
               </span>
               <form action={signOut}>
-                <button type="submit" className="btn-on-dark min-h-11 px-4 py-2 text-sm">
-                  Log out
-                </button>
+                <SubmitButton className="btn-on-dark min-h-11 px-4 py-2 text-sm" pendingLabel="Logging out…">Log out</SubmitButton>
               </form>
             </div>
           ) : null}

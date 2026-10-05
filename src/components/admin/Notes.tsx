@@ -1,5 +1,6 @@
 import { formatAtlanta } from "@/lib/admin/time";
 import { createClient } from "@/lib/supabase/server";
+import { SubmitButton } from "./SubmitButton";
 
 interface NoteRow {
   id: string;
@@ -47,7 +48,7 @@ export async function Notes({
           <input type="hidden" name="id" value={parentId} />
           <label htmlFor="note-body" className="sr-only">New note</label>
           <textarea id="note-body" name="body" required maxLength={5000} rows={3} placeholder="Add a note…" className="block w-full rounded-lg border border-line bg-surface px-3.5 py-2.5" />
-          <button type="submit" className="btn-primary justify-self-start">Add note</button>
+          <SubmitButton className="btn-primary justify-self-start" pendingLabel="Adding…">Add note</SubmitButton>
         </form>
       ) : null}
       {notes.length === 0 ? (
@@ -65,7 +66,7 @@ export async function Notes({
                   <form action={deleteAction}>
                     <input type="hidden" name="id" value={parentId} />
                     <input type="hidden" name="note_id" value={n.id} />
-                    <button type="submit" className="min-h-11 px-2 font-semibold text-danger underline-offset-4 hover:underline">Delete note</button>
+                    <SubmitButton className="min-h-11 px-2 font-semibold text-danger underline-offset-4 hover:underline" pendingLabel="Deleting…">Delete note</SubmitButton>
                   </form>
                 ) : null}
               </div>

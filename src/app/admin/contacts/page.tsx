@@ -11,6 +11,7 @@ import { can } from "@/lib/admin/roles";
 import { requireStaff } from "@/lib/admin/session";
 import { formatAtlanta } from "@/lib/admin/time";
 import { createClient } from "@/lib/supabase/server";
+import { SubmitButton } from "@/components/admin/SubmitButton";
 
 export const metadata: Metadata = { title: { absolute: "Contacts | ATL Work Cars Admin" } };
 
@@ -130,7 +131,7 @@ export default async function ContactsPage({ searchParams }: { searchParams: Pro
         ) : (
           <p className="text-sm text-ink-soft lg:col-span-2">Active contacts not yet contacted, Hot first.</p>
         )}
-        <button type="submit" className="btn-primary min-h-11 py-2">Apply</button>
+        <SubmitButton className="btn-primary min-h-11 py-2" pendingLabel="Loading…">Apply</SubmitButton>
       </form>
 
       {rows.length === 0 ? (

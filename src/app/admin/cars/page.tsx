@@ -6,6 +6,7 @@ import { one, type SearchParams } from "@/lib/admin/nav";
 import { can } from "@/lib/admin/roles";
 import { requireStaff } from "@/lib/admin/session";
 import { createClient } from "@/lib/supabase/server";
+import { SubmitButton } from "@/components/admin/SubmitButton";
 
 export const metadata: Metadata = { title: { absolute: "Cars | ATL Work Cars Admin" } };
 
@@ -68,7 +69,7 @@ export default async function CarsPage({ searchParams }: { searchParams: Promise
             <option value="hidden">Hidden</option>
           </select>
         </div>
-        <button type="submit" className="btn-primary min-h-11 py-2">Apply</button>
+        <SubmitButton className="btn-primary min-h-11 py-2" pendingLabel="Loading…">Apply</SubmitButton>
       </form>
 
       {rows.length === 0 ? (

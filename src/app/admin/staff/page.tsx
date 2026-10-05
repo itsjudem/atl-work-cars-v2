@@ -5,6 +5,7 @@ import { requireStaff } from "@/lib/admin/session";
 import { formatAtlanta } from "@/lib/admin/time";
 import { createClient } from "@/lib/supabase/server";
 import { changeRole, inviteStaff, setActive } from "./actions";
+import { SubmitButton } from "@/components/admin/SubmitButton";
 
 export const metadata: Metadata = { title: { absolute: "Staff | ATL Work Cars Admin" } };
 
@@ -72,7 +73,7 @@ export default async function StaffPage({ searchParams }: Props) {
               ))}
             </select>
           </div>
-          <button type="submit" className="btn-primary">Send invite</button>
+          <SubmitButton className="btn-primary">Send invite</SubmitButton>
         </form>
       </section>
 
@@ -111,14 +112,14 @@ export default async function StaffPage({ searchParams }: Props) {
                             ))}
                           </select>
                         </div>
-                        <button type="submit" disabled={lastOwner} className="btn-secondary min-h-11 px-4 py-2 disabled:opacity-50">Save role</button>
+                        <SubmitButton disabled={lastOwner} className="btn-secondary min-h-11 px-4 py-2 disabled:opacity-50">Save role</SubmitButton>
                       </form>
                       <form action={setActive}>
                         <input type="hidden" name="id" value={s.id} />
                         <input type="hidden" name="active" value={s.is_active ? "false" : "true"} />
-                        <button type="submit" disabled={lastOwner} className="btn-secondary min-h-11 px-4 py-2 disabled:opacity-50">
+                        <SubmitButton disabled={lastOwner} className="btn-secondary min-h-11 px-4 py-2 disabled:opacity-50">
                           {s.is_active ? "Deactivate" : "Reactivate"}
-                        </button>
+                        </SubmitButton>
                       </form>
                     </div>
                   )}

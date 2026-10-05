@@ -1,3 +1,4 @@
+import { SubmitButton } from "@/components/admin/SubmitButton";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -100,7 +101,7 @@ export default async function ContactDetail({ params, searchParams }: { params: 
             <form action={setContactArchived}>
               <input type="hidden" name="id" value={c.id} />
               <input type="hidden" name="value" value="true" />
-              <button type="submit" className="btn-primary">Archive this contact</button>
+              <SubmitButton className="btn-primary">Archive this contact</SubmitButton>
             </form>
             <Link href={`/admin/contacts/${c.id}/`} className="btn-secondary">Keep active</Link>
           </div>
@@ -112,13 +113,13 @@ export default async function ContactDetail({ params, searchParams }: { params: 
           <form action={setContactContacted}>
             <input type="hidden" name="id" value={c.id} />
             <input type="hidden" name="value" value={c.contacted ? "false" : "true"} />
-            <button type="submit" className={c.contacted ? "btn-secondary" : "btn-primary"}>{c.contacted ? "Mark not contacted" : "Mark contacted"}</button>
+            <SubmitButton className={c.contacted ? "btn-secondary" : "btn-primary"}>{c.contacted ? "Mark not contacted" : "Mark contacted"}</SubmitButton>
           </form>
           {c.archived_at || !renting.length ? (
             <form action={setContactArchived}>
               <input type="hidden" name="id" value={c.id} />
               <input type="hidden" name="value" value={c.archived_at ? "false" : "true"} />
-              <button type="submit" className="btn-secondary">{c.archived_at ? "Restore" : "Archive"}</button>
+              <SubmitButton className="btn-secondary">{c.archived_at ? "Restore" : "Archive"}</SubmitButton>
             </form>
           ) : (
             <Link href={`/admin/contacts/${c.id}/?confirm=archive`} className="btn-secondary">Archive…</Link>
@@ -135,7 +136,7 @@ export default async function ContactDetail({ params, searchParams }: { params: 
             <form action={setContactArchived}>
               <input type="hidden" name="id" value={c.id} />
               <input type="hidden" name="value" value="true" />
-              <button type="submit" className="btn-primary">Archive anyway</button>
+              <SubmitButton className="btn-primary">Archive anyway</SubmitButton>
             </form>
             <Link href={`/admin/contacts/${c.id}/`} className="btn-secondary">Cancel</Link>
           </div>
@@ -154,7 +155,7 @@ export default async function ContactDetail({ params, searchParams }: { params: 
                 <form action={deleteContact}>
                   <input type="hidden" name="id" value={c.id} />
                   <input type="hidden" name="confirm" value="yes" />
-                  <button type="submit" className="btn bg-danger text-white">Delete permanently</button>
+                  <SubmitButton className="btn bg-danger text-white" pendingLabel="Deleting…">Delete permanently</SubmitButton>
                 </form>
                 <Link href={`/admin/contacts/${c.id}/`} className="btn-secondary">Cancel</Link>
               </div>
@@ -198,7 +199,7 @@ export default async function ContactDetail({ params, searchParams }: { params: 
                   </select>
                 </div>
               </fieldset>
-              {mayEdit ? <button type="submit" className="btn-primary sm:col-span-2 sm:justify-self-start">Save details</button> : null}
+              {mayEdit ? <SubmitButton className="btn-primary sm:col-span-2 sm:justify-self-start" pendingLabel="Saving…">Save details</SubmitButton> : null}
             </form>
           </section>
 
@@ -234,7 +235,7 @@ export default async function ContactDetail({ params, searchParams }: { params: 
                     <option value="low">Low</option>
                   </select>
                 </div>
-                <button type="submit" className="btn-primary sm:col-span-2">Save rating</button>
+                <SubmitButton className="btn-primary sm:col-span-2" pendingLabel="Saving…">Save rating</SubmitButton>
               </form>
             ) : (
               <p className="mt-2 text-sm text-ink-soft">Fit: {c.fit ?? "not rated"} · Intent: {c.intent ?? "not rated"}</p>

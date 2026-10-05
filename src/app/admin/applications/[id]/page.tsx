@@ -1,3 +1,4 @@
+import { SubmitButton } from "@/components/admin/SubmitButton";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -136,12 +137,12 @@ export default async function ApplicationDetail({ params, searchParams }: { para
           <form action={setContacted}>
             <input type="hidden" name="id" value={app.id} />
             <input type="hidden" name="value" value={app.contacted ? "false" : "true"} />
-            <button type="submit" className={app.contacted ? "btn-secondary" : "btn-primary"}>{app.contacted ? "Mark not contacted" : "Mark contacted"}</button>
+            <SubmitButton className={app.contacted ? "btn-secondary" : "btn-primary"}>{app.contacted ? "Mark not contacted" : "Mark contacted"}</SubmitButton>
           </form>
           <form action={setArchived}>
             <input type="hidden" name="id" value={app.id} />
             <input type="hidden" name="value" value={app.archived_at ? "false" : "true"} />
-            <button type="submit" className="btn-secondary">{app.archived_at ? "Restore" : "Archive"}</button>
+            <SubmitButton className="btn-secondary">{app.archived_at ? "Restore" : "Archive"}</SubmitButton>
           </form>
           {mayDelete && !confirmDelete ? (
             <Link href={`/admin/applications/${app.id}/?confirm=delete`} className="btn-secondary border-danger text-danger">Delete…</Link>
@@ -157,7 +158,7 @@ export default async function ApplicationDetail({ params, searchParams }: { para
             <form action={deleteApplication}>
               <input type="hidden" name="id" value={app.id} />
               <input type="hidden" name="confirm" value="yes" />
-              <button type="submit" className="btn bg-danger text-white">Delete permanently</button>
+              <SubmitButton className="btn bg-danger text-white" pendingLabel="Deleting…">Delete permanently</SubmitButton>
             </form>
             <Link href={`/admin/applications/${app.id}/`} className="btn-secondary">Cancel</Link>
           </div>
@@ -197,7 +198,7 @@ export default async function ApplicationDetail({ params, searchParams }: { para
                   <form action={linkContact}>
                     <input type="hidden" name="id" value={app.id} />
                     <input type="hidden" name="contact_id" value="" />
-                    <button type="submit" className="min-h-11 px-2 text-sm font-semibold text-brand underline-offset-4 hover:underline">Unlink</button>
+                    <SubmitButton className="min-h-11 px-2 text-sm font-semibold text-brand underline-offset-4 hover:underline">Unlink</SubmitButton>
                   </form>
                 ) : null}
               </div>
@@ -212,7 +213,7 @@ export default async function ApplicationDetail({ params, searchParams }: { para
                   <label htmlFor="cq" className="text-sm font-semibold">Link to an existing contact</label>
                   <div className="mt-1 flex gap-2">
                     <input id="cq" name="cq" defaultValue={cq} placeholder="Name, phone or email" className="block min-h-11 w-full rounded-lg border border-line bg-surface px-3" />
-                    <button type="submit" className="btn-secondary min-h-11 px-4 py-2">Search</button>
+                    <SubmitButton className="btn-secondary min-h-11 px-4 py-2">Search</SubmitButton>
                   </div>
                 </form>
                 {cq ? (
@@ -227,7 +228,7 @@ export default async function ApplicationDetail({ params, searchParams }: { para
                           <form action={linkContact}>
                             <input type="hidden" name="id" value={app.id} />
                             <input type="hidden" name="contact_id" value={m.id} />
-                            <button type="submit" className="btn-secondary min-h-11 px-4 py-2">Link</button>
+                            <SubmitButton className="btn-secondary min-h-11 px-4 py-2">Link</SubmitButton>
                           </form>
                         </li>
                       ))}

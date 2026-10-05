@@ -1,3 +1,4 @@
+import { SubmitButton } from "@/components/admin/SubmitButton";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -97,7 +98,7 @@ export default async function CarDetail({ params, searchParams }: { params: Prom
       <form action={setCarStatus}>
         <input type="hidden" name="id" value={car.id} />
         <input type="hidden" name="status" value={to} />
-        <button type="submit" className="btn-secondary">{label}</button>
+        <SubmitButton className="btn-secondary">{label}</SubmitButton>
       </form>
     );
 
@@ -120,7 +121,7 @@ export default async function CarDetail({ params, searchParams }: { params: Prom
             <form action={setPublished}>
               <input type="hidden" name="id" value={car.id} />
               <input type="hidden" name="value" value={car.is_published ? "false" : "true"} />
-              <button type="submit" className={car.is_published ? "btn-secondary" : "btn-primary"}>{car.is_published ? "Hide from website" : "Show on website"}</button>
+              <SubmitButton className={car.is_published ? "btn-secondary" : "btn-primary"}>{car.is_published ? "Hide from website" : "Show on website"}</SubmitButton>
             </form>
           ) : null}
           {car.is_published ? <Link href="/cars/" className="btn-secondary">View on website</Link> : null}
@@ -136,7 +137,7 @@ export default async function CarDetail({ params, searchParams }: { params: Prom
             <form action={setCarStatus}>
               <input type="hidden" name="id" value={car.id} />
               <input type="hidden" name="status" value={unrentTo} />
-              <button type="submit" className="btn-primary">Remove renter</button>
+              <SubmitButton className="btn-primary">Remove renter</SubmitButton>
             </form>
             <Link href={here} className="btn-secondary">Cancel</Link>
           </div>
@@ -155,7 +156,7 @@ export default async function CarDetail({ params, searchParams }: { params: Prom
                 <form action={deleteCar}>
                   <input type="hidden" name="id" value={car.id} />
                   <input type="hidden" name="confirm" value="yes" />
-                  <button type="submit" className="btn bg-danger text-white">Delete permanently</button>
+                  <SubmitButton className="btn bg-danger text-white" pendingLabel="Deleting…">Delete permanently</SubmitButton>
                 </form>
                 <Link href={here} className="btn-secondary">Cancel</Link>
               </div>
@@ -172,7 +173,7 @@ export default async function CarDetail({ params, searchParams }: { params: Prom
             <fieldset disabled={!mayEdit} className="contents">
               <CarFields car={car} />
             </fieldset>
-            {mayEdit ? <button type="submit" className="btn-primary sm:col-span-2 sm:justify-self-start">Save car</button> : null}
+            {mayEdit ? <SubmitButton className="btn-primary sm:col-span-2 sm:justify-self-start" pendingLabel="Saving…">Save car</SubmitButton> : null}
           </form>
         </section>
 
@@ -198,7 +199,7 @@ export default async function CarDetail({ params, searchParams }: { params: Prom
                 <form method="get" className="mt-2 flex gap-2">
                   <label htmlFor="rq" className="sr-only">Find a contact</label>
                   <input id="rq" name="rq" defaultValue={rq} placeholder="Name, phone or email" className={`${input} mt-0`} />
-                  <button type="submit" className="btn-secondary">Find</button>
+                  <SubmitButton className="btn-secondary" pendingLabel="Searching…">Find</SubmitButton>
                 </form>
                 {rq && candidates.length === 0 ? (
                   <p className="mt-2 text-sm text-ink-soft">No active contacts match. Add them on the <Link href="/admin/contacts/new/">Contacts page</Link> first.</p>
@@ -228,7 +229,7 @@ export default async function CarDetail({ params, searchParams }: { params: Prom
                       <label htmlFor="rented_since" className="block font-semibold">Rental start date</label>
                       <input id="rented_since" name="rented_since" type="date" required defaultValue={car.rented_since ?? todayAtlanta()} className={input} />
                     </div>
-                    <button type="submit" className="btn-primary justify-self-start">{car.status === "rented" ? "Save renter" : "Mark as Rented"}</button>
+                    <SubmitButton className="btn-primary justify-self-start">{car.status === "rented" ? "Save renter" : "Mark as Rented"}</SubmitButton>
                   </form>
                 ) : null}
               </>
@@ -248,11 +249,11 @@ export default async function CarDetail({ params, searchParams }: { params: Prom
                   <input type="hidden" name="id" value={car.id} />
                   <label htmlFor="alt-edit" className="font-semibold">Photo description</label>
                   <input id="alt-edit" name="photo_alt" required maxLength={300} defaultValue={car.photo_alt ?? ""} className={`${input} mt-0`} />
-                  <button type="submit" className="btn-secondary justify-self-start">Save description</button>
+                  <SubmitButton className="btn-secondary justify-self-start" pendingLabel="Saving…">Save description</SubmitButton>
                 </form>
                 <form action={removePhoto}>
                   <input type="hidden" name="id" value={car.id} />
-                  <button type="submit" className="min-h-11 font-semibold text-danger underline-offset-4 hover:underline">Remove photo</button>
+                  <SubmitButton className="min-h-11 font-semibold text-danger underline-offset-4 hover:underline" pendingLabel="Removing…">Remove photo</SubmitButton>
                 </form>
               </div>
             ) : null}
@@ -269,7 +270,7 @@ export default async function CarDetail({ params, searchParams }: { params: Prom
                   <p id="alt-hint" className="text-sm text-ink-soft">For people who can&apos;t see it, e.g. “Silver 2021 Toyota Prius, front view”.</p>
                   <input id="photo_alt" name="photo_alt" required maxLength={300} aria-describedby="alt-hint" className={input} />
                 </div>
-                <button type="submit" className="btn-primary justify-self-start">Upload</button>
+                <SubmitButton className="btn-primary justify-self-start" pendingLabel="Uploading…">Upload</SubmitButton>
               </form>
             ) : null}
           </section>

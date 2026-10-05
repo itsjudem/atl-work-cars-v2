@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { AuthCard, inputClass, Notice } from "@/components/admin/AuthCard";
 import { lookupStaff, safeAdminPath } from "@/lib/admin/session";
 import { signIn } from "../actions";
+import { SubmitButton } from "@/components/admin/SubmitButton";
 
 export const metadata: Metadata = { title: { absolute: "Log in | ATL Work Cars Admin" } };
 
@@ -40,7 +41,7 @@ export default async function LoginPage({ searchParams }: Props) {
           <label htmlFor="password" className="block font-semibold">Password</label>
           <input id="password" name="password" type="password" autoComplete="current-password" required className={inputClass} />
         </div>
-        <button type="submit" className="btn-primary">Log in</button>
+        <SubmitButton className="btn-primary" pendingLabel="Logging in…">Log in</SubmitButton>
       </form>
       <p className="mt-5">
         <Link href="/admin/forgot-password/" className="inline-flex min-h-11 items-center font-semibold">Forgot password?</Link>
