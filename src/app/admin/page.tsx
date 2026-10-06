@@ -1,5 +1,5 @@
+import { PendingLink } from "@/components/admin/PendingLink";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { roleLabels } from "@/lib/admin/roles";
 import { requireStaff } from "@/lib/admin/session";
 import { createClient } from "@/lib/supabase/server";
@@ -69,7 +69,7 @@ export default async function AdminHome() {
               <div key={t.label} className="relative rounded-xl border border-line bg-surface p-4 hover:border-brand">
                 <dt className="text-sm text-ink-soft">
                   {t.href ? (
-                    <Link href={t.href} className="text-ink-soft no-underline after:absolute after:inset-0">{t.label}</Link>
+                    <PendingLink href={t.href} className="text-ink-soft no-underline after:absolute after:inset-0">{t.label}</PendingLink>
                   ) : (
                     t.label
                   )}

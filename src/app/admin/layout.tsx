@@ -1,3 +1,4 @@
+import { PendingLink } from "@/components/admin/PendingLink";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { lookupStaff } from "@/lib/admin/session";
@@ -52,9 +53,9 @@ export default async function AdminLayout({ children }: Readonly<{ children: Rea
             <ul className="flex gap-1 pb-2 text-sm">
               {navFor(staff.role).map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="inline-flex min-h-11 items-center whitespace-nowrap rounded-md px-3 text-white no-underline hover:bg-white/10">
+                  <PendingLink href={l.href} className="inline-flex min-h-11 items-center whitespace-nowrap rounded-md px-3 text-white no-underline hover:bg-white/10">
                     {l.label}
-                  </Link>
+                  </PendingLink>
                 </li>
               ))}
             </ul>

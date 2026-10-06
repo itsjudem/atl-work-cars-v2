@@ -1,3 +1,4 @@
+import { PendingLink } from "@/components/admin/PendingLink";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Flash } from "@/components/admin/Flash";
@@ -89,7 +90,7 @@ export default async function CarsPage({ searchParams }: { searchParams: Promise
                 <tr key={r.id} className="align-top hover:bg-surface-muted">
                   <td className="whitespace-nowrap px-3 py-3 font-mono">{r.code}</td>
                   <td className="px-3 py-3">
-                    <Link href={`/admin/cars/${r.id}/`} className="font-semibold">{carName(r)}</Link>
+                    <PendingLink href={`/admin/cars/${r.id}/`} className="font-semibold">{carName(r)}</PendingLink>
                     {r.is_sample ? <span className="mt-1 block w-fit rounded bg-surface-muted px-2 py-0.5 text-xs font-semibold text-ink-soft">Sample</span> : null}
                   </td>
                   <td className="px-3 py-3"><span className={`rounded px-2 py-0.5 text-xs font-semibold ${statusStyle[r.status]}`}>{statusLabels[r.status]}</span></td>

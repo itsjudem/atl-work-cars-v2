@@ -1,5 +1,5 @@
+import { PendingLink } from "@/components/admin/PendingLink";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Flash } from "@/components/admin/Flash";
 import { LeadBadge } from "@/components/admin/LeadBadge";
 import { Pager } from "@/components/admin/Pager";
@@ -131,7 +131,7 @@ export default async function ApplicationsPage({ searchParams }: { searchParams:
                 <tr key={r.id} className="align-top hover:bg-surface-muted">
                   <td className="whitespace-nowrap px-3 py-3">{formatAtlanta(r.submitted_at)}</td>
                   <td className="px-3 py-3">
-                    <Link href={`/admin/applications/${r.id}/`} className="font-semibold">{r.first_name} {r.last_name}</Link>
+                    <PendingLink href={`/admin/applications/${r.id}/`} className="font-semibold">{r.first_name} {r.last_name}</PendingLink>
                     <div className="text-xs text-ink-soft">{r.reference}</div>
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">{formatPhone(r.phone)}</td>

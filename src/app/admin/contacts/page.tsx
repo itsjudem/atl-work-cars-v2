@@ -1,3 +1,4 @@
+import { PendingLink } from "@/components/admin/PendingLink";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Flash } from "@/components/admin/Flash";
@@ -150,7 +151,7 @@ export default async function ContactsPage({ searchParams }: { searchParams: Pro
               {rows.map((r) => (
                 <tr key={r.id} className="align-top hover:bg-surface-muted">
                   <td className="px-3 py-3">
-                    <Link href={`/admin/contacts/${r.id}/`} className="font-semibold">{r.first_name} {r.last_name}</Link>
+                    <PendingLink href={`/admin/contacts/${r.id}/`} className="font-semibold">{r.first_name} {r.last_name}</PendingLink>
                     {dupes.has(r.id) ? <span className="mt-1 block w-fit rounded bg-caution-soft px-2 py-0.5 text-xs font-semibold text-caution">Possible duplicate</span> : null}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">{r.phone ? formatPhone(r.phone) : "—"}</td>
