@@ -132,7 +132,7 @@ export default async function ContactsPage({ searchParams }: { searchParams: Pro
         ) : (
           <p className="text-sm text-ink-soft lg:col-span-2">Active contacts not yet contacted, Hot first.</p>
         )}
-        <SubmitButton className="btn-primary min-h-11 py-2" pendingLabel="Loading…">Apply</SubmitButton>
+        <SubmitButton className="btn-primary min-h-11 py-2">Apply</SubmitButton>
       </form>
 
       {rows.length === 0 ? (

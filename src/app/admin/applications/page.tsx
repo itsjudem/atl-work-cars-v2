@@ -111,7 +111,7 @@ export default async function ApplicationsPage({ searchParams }: { searchParams:
             {countyOptions.map((c) => <option key={c} value={c}>{c}</option>)}
           </select>
         </div>
-        <SubmitButton className="btn-primary min-h-11 py-2" pendingLabel="Loading…">Apply</SubmitButton>
+        <SubmitButton className="btn-primary min-h-11 py-2">Apply</SubmitButton>
       </form>
 
       {rows.length === 0 ? (

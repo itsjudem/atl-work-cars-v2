@@ -70,7 +70,7 @@ export default async function CarsPage({ searchParams }: { searchParams: Promise
             <option value="hidden">Hidden</option>
           </select>
         </div>
-        <SubmitButton className="btn-primary min-h-11 py-2" pendingLabel="Loading…">Apply</SubmitButton>
+        <SubmitButton className="btn-primary min-h-11 py-2">Apply</SubmitButton>
       </form>
 
       {rows.length === 0 ? (
