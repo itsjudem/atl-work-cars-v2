@@ -3,6 +3,9 @@
   "name": "atl-work-cars-v2",
   "compatibility_date": "2026-09-18",
   "keep_vars": true,
+  // The admin makes several database calls per click. Run the Worker next to the
+  // database (us-east-1) instead of next to the visitor, so those calls stay short.
+  "placement": { "mode": "smart" },
   "compatibility_flags": [
     "nodejs_compat"
   ],
